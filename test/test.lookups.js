@@ -11,6 +11,7 @@ describe('ClientkitAsset', () => {
     chai.expect(assetMap.pathToAssetMap).to.equal('../temp');
     return done();
   });
+
   it('can AssetMap a mapped file when assetMap is given as an object', (done) => {
     const assetMap = new AssetMap({ assetMap: { 'file1.js': 'file2.js' } });
     assetMap.lookupAsset('file1.js', (err, mappedName) => {
@@ -31,6 +32,12 @@ describe('ClientkitAsset', () => {
         done();
       });
     });
+  });
+
+  it('can AssetMap a mapped file immediately when readOnLoad is true', (done) => {
+    const assetMap = new AssetMap({ pathToAssetMap: 'test/assetsMap/assets.json', readOnLoad: true });
+    chai.expect(assetMap.assetMap).to.not.equal(undefined);
+    done();
   });
 
   it('will reprocess on each call when cache is false', (allDone) => {

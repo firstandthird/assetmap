@@ -6,6 +6,9 @@ class AssetMap {
   constructor(options) {
     // can pass in an object ot use as the asset map:
     this.assetMap = typeof options.assetMap === 'object' ? options.assetMap : false;
+    if (options.readOnLoad) {
+      this.assetMap = JSON.parse(fs.readFileSync(options.pathToAssetMap).toString('utf-8'));
+    }
     this.mapIsReference = options.assetMap !== undefined;
     // otherwise will read the asset map from file:
     this.pathToAssetMap = options.pathToAssetMap;
@@ -39,7 +42,6 @@ class AssetMap {
         return this.handleCallback(fileName, this.lookupInMap(fileName), done);
       }
     }
-    console.log(this.options)
     // if cache is false or if assetMap isn't loaded yet load from file or the passed object:
     fs.readFile(this.pathToAssetMap, (err, data) => {
       if (err) {
