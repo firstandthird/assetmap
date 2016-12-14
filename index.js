@@ -9,9 +9,19 @@ class AssetMap {
     this.mapIsReference = options.assetMap !== undefined;
     // otherwise will read the asset map from file:
     this.pathToAssetMap = options.pathToAssetMap;
-    this.cache = options.cache;
+    this.cache = true;
+    if (options.cache === false) {
+      this.cache = false;
+    }
     // load immediately if this is true, requires a done callback handler:
     if (options.readOnLoad) {
+      if (!done) {
+        done = (err) => {
+          if (err) {
+            throw err;
+          }
+        };
+      }
       this.readAssetFile(options.pathToAssetMap, done);
     }
   }
@@ -37,7 +47,7 @@ class AssetMap {
     }
     fs.readFile(fileName, (err, data) => {
       if (err) {
-        return done(new Error(`Clientkit could not access an asset map at ${fileName}`));
+        return done(err);
       }
       this.assetMap = JSON.parse(data.toString());
       return done(null, this.assetMap);
