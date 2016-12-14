@@ -1,11 +1,11 @@
 {
   "name": "clientkit-asset",
   "version": "0.0.4",
-  "description": "clientkiet library that reads from a mapping json and returns back the right asset file",
+  "description": "clientkit library that reads from a mapping json and returns back the right asset file",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha test ."
+    "test": "tape test/test.tape.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,12 @@
     "eslint": "^3.9.1",
     "eslint-config-firstandthird": "^3.0.2",
     "eslint-plugin-import": "^2.1.0",
+    "async": "^2.1.2",
     "mocha": "^3.2.0"
   },
   "eslintConfig": {
     "extends": "firstandthird"
   },
   "dependencies": {
-    "async": "^2.1.2"
   }
 }

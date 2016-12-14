@@ -3,52 +3,54 @@ const path = require('path');
 
 class AssetMap {
 
-  constructor(options) {
+  constructor(options, done) {
     // can pass in an object ot use as the asset map:
     this.assetMap = typeof options.assetMap === 'object' ? options.assetMap : false;
-    if (options.readOnLoad) {
-      this.assetMap = JSON.parse(fs.readFileSync(options.pathToAssetMap).toString('utf-8'));
-    }
     this.mapIsReference = options.assetMap !== undefined;
     // otherwise will read the asset map from file:
     this.pathToAssetMap = options.pathToAssetMap;
     this.cache = options.cache;
+    // load immediately if this is true, requires a done callback handler:
+    if (options.readOnLoad) {
+      this.readAssetFile(options.pathToAssetMap, done);
+    }
   }
 
   // looks things up in the assetMap when it exists:
-  lookupInMap(fileName) {
-    if (this.assetMap[fileName]) {
-      return this.assetMap[fileName];
+  lookupInMap(filenameToMap) {
+    if (this.assetMap[filenameToMap]) {
+      return this.assetMap[filenameToMap];
     }
-    const withoutPath = path.basename(fileName);
+    const withoutPath = path.basename(filenameToMap);
     if (this.assetMap[withoutPath]) {
       return this.assetMap[withoutPath];
     }
+    return new Error(`Could not find a reference like ${filenameToMap} in assetMap`);
   }
 
-  // calls the callback with error if it didn't work:
-  handleCallback(originalName, mappedName, done) {
-    if (mappedName) {
-      return done(null, mappedName);
-    }
-    return done(new Error(`Could not find ${originalName} in assetMap`));
-  }
-
-  // public facing function that looks in the map or loads it from file if not found:
-  lookupAsset(fileName, done) {
-    if (this.assetMap) {
-      // if the map was already loaded or the map was passed as an object reference:
-      if (this.cache || this.mapIsReference) {
-        return this.handleCallback(fileName, this.lookupInMap(fileName), done);
+  // call without a 'done' for full sync behavior:
+  readAssetFile(fileName, done) {
+    if (this.cache || this.mapIsReference) {
+      if (this.assetMap) {
+        return done(null, this.assetMap);
       }
     }
-    // if cache is false or if assetMap isn't loaded yet load from file or the passed object:
-    fs.readFile(this.pathToAssetMap, (err, data) => {
+    fs.readFile(fileName, (err, data) => {
       if (err) {
-        return done(err);
+        return done(new Error(`Clientkit could not access an asset map at ${fileName}`));
       }
       this.assetMap = JSON.parse(data.toString());
-      this.handleCallback(fileName, this.lookupInMap(fileName), done);
+      return done(null, this.assetMap);
+    });
+  }
+
+  // public facing function for looking up assets by filename:
+  lookupAsset(filenameToMap, done) {
+    this.readAssetFile(this.pathToAssetMap, (err) => {
+      if (err) {
+        throw err;
+      }
+      return done(null, this.lookupInMap(filenameToMap));
     });
   }
 }
