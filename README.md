@@ -1,1 +1,1 @@
-# clientkit-asset
+# clientkit-assets

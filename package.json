@@ -1,7 +1,7 @@
 {
-  "name": "clientkit-asset",
+  "name": "clientkit-assets",
   "version": "0.0.1",
-  "description": "clientkit library that reads from a mapping json and returns back the right asset file",
+  "description": "clientkit library that reads from a mapping json and returns back the right assets file",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/firstandthird/clientkit-asset.git"
+    "url": "git+https://github.com/firstandthird/clientkit-assets.git"
   },
   "keywords": [],
   "author": "Greg Allen <code@firstandthird.com> (http://firstandthird.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/firstandthird/clientkit-asset/issues"
+    "url": "https://github.com/firstandthird/clientkit-assets/issues"
   },
-  "homepage": "https://github.com/firstandthird/clientkit-asset#readme",
+  "homepage": "https://github.com/firstandthird/clientkit-assets#readme",
   "devDependencies": {
     "async": "^2.1.2",
     "eslint": "^3.9.1",
