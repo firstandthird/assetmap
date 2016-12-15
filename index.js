@@ -58,7 +58,7 @@ class AssetMap {
   lookupAsset(filenameToMap, done) {
     this.readAssetFile(this.pathToAssetMap, (err) => {
       if (err) {
-        throw err;
+        return done(err);
       }
       return done(null, this.lookupInMap(filenameToMap));
     });

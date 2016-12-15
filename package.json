@@ -1,6 +1,6 @@
 {
   "name": "clientkit-asset",
-  "version": "0.0.4",
+  "version": "0.0.1",
   "description": "clientkit library that reads from a mapping json and returns back the right asset file",
   "main": "index.js",
   "scripts": {
