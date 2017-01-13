@@ -1,1 +1,1 @@
-# clientkit-assets
+# assetmap
