@@ -1,6 +1,6 @@
 {
   "name": "assetmap",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Library that reads from a mapping json and returns back the right assets file",
   "main": "index.js",
   "scripts": {
